@@ -1,18 +1,28 @@
-import React from 'react';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
-import TaskList from './components/TaskList';
-import AddTaskForm from './components/AddTaskForm';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import HomePage from './pages/HomePage';
+import TasksPage from './pages/TasksPage';
 
 const App = () => {
+    const [username, setUsername] = useState(null);
+
+    const handleLogin = (username) => {
+        setUsername(username);
+    };
+
+    const handleLogout = () => {
+        setUsername(null);
+    };
+
     return (
-        <div>
-            <h1>Task and Person Management</h1>
-            <LoginForm />
-            <RegisterForm />
-            <TaskList />
-            <AddTaskForm />
-        </div>
+        <Router>
+            <Navbar username={username} onLogout={handleLogout} />
+            <Routes>
+                <Route path="/" element={<HomePage onLogin={handleLogin} />} />
+                {username && <Route path="/tasks" element={<TasksPage username={username} />} />}
+            </Routes>
+        </Router>
     );
 };
 

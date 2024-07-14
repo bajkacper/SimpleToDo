@@ -11,7 +11,11 @@ const RegisterForm = () => {
         const person = { name: username, password, age };
         try {
             const result = await createPerson(person);
-            alert(result ? 'Registration successful' : 'Username already taken');
+            if (result) {
+                alert('Registration successful');
+            } else {
+                alert('Username already taken');
+            }
         } catch (error) {
             alert('An error occurred during registration');
         }

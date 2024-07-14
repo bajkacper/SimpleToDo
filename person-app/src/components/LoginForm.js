@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { login } from '../api';
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -9,7 +9,11 @@ const LoginForm = () => {
         e.preventDefault();
         try {
             const result = await login(username, password);
-            alert(result ? 'Login successful' : 'Invalid credentials');
+            if (result) {
+                onLogin(username);
+            } else {
+                alert('Invalid credentials');
+            }
         } catch (error) {
             alert('An error occurred during login');
         }
